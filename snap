@@ -44,15 +44,15 @@ fi
 # Take raw snapshot
 (mkdir -p "$spn/$ts" && cp -rf . "$spn/$ts") || exit 1
 
-if [ -x "$spn/polish" ]; then
-	"$spn/polish" "$spn/$ts" $*
-fi
-
 # Redo latest link
 if [ -e "$spn/latest" ]; then
 	rm "$spn/latest"
 fi
 ln -s "$spn/$ts" "$spn/latest"
+
+if [ -x "$spn/polish" ]; then
+	"$spn/polish" "$spn" $*
+fi
 
 if [ "$1" = "-v" ]; then
 	echo `date -d "@$ts"` ': snapshot taken in' $spn/$ts

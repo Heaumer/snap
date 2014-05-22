@@ -1,15 +1,13 @@
 #!/bin/sh
 
-echo $*
-
-cd `dirname "$1"`
+cd "$1"
 
 if [ ! -d ./git/ ]; then
 	mkdir ./git && cd git && git init
 else
 	cd git
 fi
-cp -rf "$1"/* .
+cp -rf "$1"/latest/* .
 shift
 git add -A
 git commit -a -m "'$*'"
