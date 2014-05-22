@@ -7,8 +7,17 @@ if [ ! -d ./git/ ]; then
 else
 	cd git
 fi
+# remove current files
+rm -rf .
+# copy new ones
 cp -rf "$1"/latest/* .
+
+# remove $1 from $*
 shift
+
+# commit
 git add -A
 git commit -a -m "'$*'"
+
+# push everything
 git push
