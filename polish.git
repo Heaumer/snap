@@ -8,15 +8,11 @@ else
 	cd git
 fi
 # remove current files
-pwd
-read
 rm -rf ./*
-ls
-read
+
 # copy new ones
 cp -rf "$1"/latest/* .
-ls
-read
+
 # remove $1 from $*
 shift
 
