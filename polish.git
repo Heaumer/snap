@@ -8,6 +8,8 @@ else
 	cd git
 fi
 # remove current files
+pwd
+read
 rm -rf .
 # copy new ones
 cp -rf "$1"/latest/* .
