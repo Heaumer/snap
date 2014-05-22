@@ -1,0 +1,60 @@
+#!/bin/sh
+# Simple and Natural Archiver for the Poor
+# Take a snapshot of current directory
+#	-v : verbose
+#	-l : list version
+#	-d : diff with latest snapshot
+
+# Timestamp
+ts=`date +%s`
+
+# Snap directory
+sd=$HOME/.snap
+
+# Project name
+pn=`basename $PWD`
+
+# Get $pn from $PWD/.snap if it exists, else, write it there
+if [ -f ".snap" ]; then
+	pn=`sed 1q .snap`
+else
+	echo $pn > .snap
+fi
+
+# Project in snap directory
+spn="$sd/$pn"
+
+# List every version
+if [ "$1" = "-l" ]; then
+	for v in $spn/*; do
+		w=`basename $v`
+		if [ "$w" != "polish" ] && [ "$w" != "latest" ]; then
+			echo `date -d "@$w"` ':' $v
+		fi
+	done | sort -n
+	exit
+fi
+
+# Diff with latest version
+if [ "$1" = "-d" ]; then
+	diff -r $spn/latest/ .
+	exit
+fi
+
+# Take raw snapshot
+(mkdir -p "$spn/$ts" && cp -rf . "$spn/$ts") || exit 1
+
+if [ -x "$spn/polish" ]; then
+	"$spn/polish" "$spn/$ts" $*
+fi
+
+# Redo latest link
+if [ -e "$spn/latest" ]; then
+	rm "$spn/latest"
+fi
+ln -s "$spn/$ts" "$spn/latest"
+
+if [ "$1" = "-v" ]; then
+	echo `date -d "@$ts"` ': snapshot taken in' $spn/$ts
+fi
+

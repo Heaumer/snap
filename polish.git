@@ -1,0 +1,16 @@
+#!/bin/sh
+
+echo $*
+
+cd `dirname "$1"`
+
+if [ ! -d ./git/ ]; then
+	mkdir ./git && cd git && git init
+else
+	cd git
+fi
+cp -rf "$1"/* .
+shift
+git add -A
+git commit -a -m "'$*'"
+git push
