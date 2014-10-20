@@ -4,6 +4,14 @@
 #	-v : verbose
 #	-l : list version
 #	-d : diff with latest snapshot
+# TODO
+#	-h            : help
+#	-x <version>  : delete (eventually, redo linking)
+#	-f <cmd>      : foreach version execute following command
+#	-r <version>  : restore a previous snapshot
+#	-sr <version> : snap current and restore to previous snapshot
+#	-p [cmd]      : paste a shar(1) using cmd (paste.sh)
+#
 
 # Timestamp
 ts=`date +%s`
